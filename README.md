@@ -10,3 +10,6 @@ so instead I'll use pyserial on raspberry pi to read arduino output. Funnily I d
 use raspberry scripts to scp processing output to my google cloud. Find a way to run this on raspberry pi start up
 
 use gcp files to process the received log files, and make the data available on API. Set up auto emailing mechanism
+
+
+why don't we just output from arduino once per minute, and then just post directly from python. no need to post the python output log
