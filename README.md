@@ -11,5 +11,9 @@ use raspberry scripts to scp processing output to my google cloud. Find a way to
 
 use gcp files to process the received log files, and make the data available on API. Set up auto emailing mechanism
 
+display data either on hourly or daily basis. Pregenerate charts to make things easier. Allow on demand generation.
+
+could prettify output by using some kind of reactjs front end
+
 
 why don't we just output from arduino once per minute, and then just post directly from python. no need to post the python output log
