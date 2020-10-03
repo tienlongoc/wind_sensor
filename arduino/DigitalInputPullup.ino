@@ -21,7 +21,7 @@ void loop() {
     numOfSwitches++;
   }
 
-  if (millis() - time >= 1000)
+  if (millis() - time >= 60000)
   {
     Serial.write(numOfSwitches);
     time = millis();
