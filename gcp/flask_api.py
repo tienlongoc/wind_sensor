@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import mysql.connector
 from datetime import datetime
 
@@ -22,8 +22,15 @@ def validate_date(date_text):
 
 @app.route("/", methods=['GET'])
 def home():
-    return "<h1>Oscar's API</h1>"
+    return "<h1>Oscar's wind sensor data</h1><p><a href='day'>Today's sensor data</a><p><a href='hour'>Last hour's sensor data</a>"
 
+@app.route("/day", methods=['GET'])
+def day():
+    return render_template('current_day.html')
+
+@app.route("/hour", methods=['GET'])
+def hour():
+    return render_template('current_hour.html')
 
 @app.route("/", methods=['POST'])
 def update_db():
