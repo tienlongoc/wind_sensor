@@ -5,7 +5,7 @@ print(ser.name)
 
 while(1):
     hour = datetime.now().strftime("%Y%m%d-%H")
-    second = datetime.now().strftime("%Y%m%d-%H:%M:%S")
+    minute = datetime.now().strftime("%Y%m%d-%H:%M")
     filename = "/home/pi/ws/wind_sensor/pyserial/logs/windspeed-" + hour + ".txt"
     with open(filename, "a") as f:
-        f.write(second + "," + str(ord(ser.read())) + "\n")
+        f.write(minute + "," + str(ord(ser.read())) + "\n")
