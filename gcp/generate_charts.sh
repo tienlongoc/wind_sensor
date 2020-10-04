@@ -4,7 +4,7 @@ source ~/.bashrc
 source ~/ws/wind_sensor/gcp/wind_sensor/bin/activate
 
 day=$(date +"%Y%m%d")
-hour=$(date +"%Y%m%d-%H" -d "+1 hour")
+hour=$(date +"%Y%m%d-%H")
 
 python generate_charts.py --day="$day" >> log.txt 2>&1 
 python generate_charts.py --hour="$hour" >> log.txt 2>&1
