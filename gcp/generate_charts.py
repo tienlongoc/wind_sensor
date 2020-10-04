@@ -34,7 +34,7 @@ def generate_daily_report(day):
     data = np.array(list(mycursor.fetchall()))
     if (len(data) == 0):
         return True
-    x = [datetime.strptime(t, '%Y%m%d-%H:%M:%S') for t in data[:,0]]
+    x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
     y = data[:,1]
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x,y=y))
@@ -46,7 +46,7 @@ def generate_hourly_report(hour):
     data = np.array(list(mycursor.fetchall()))
     if (len(data) == 0):
         return True
-    x = [datetime.strptime(t, '%Y%m%d-%H:%M:%S') for t in data[:,0]]
+    x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
     y = data[:,1]
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x,y=y))

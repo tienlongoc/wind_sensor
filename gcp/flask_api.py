@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 def validate_date(date_text):
     try:
-        if date_text != datetime.strptime(date_text, "%Y%m%d-%H:%M:%S").strftime('%Y%m%d-%H:%M:%S'):
+        if date_text != datetime.strptime(date_text, "%Y%m%d-%H:%M").strftime('%Y%m%d-%H:%M'):
             raise ValueError
         return True
     except ValueError:
