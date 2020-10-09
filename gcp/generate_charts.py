@@ -38,9 +38,25 @@ def generate_daily_report(day):
     x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
     y = data[:,1]
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=x,y=y))
+    fig.add_trace(go.Bar(x=x,y=y))
+    fig.update_layout(
+        title = 'Wind speed data for date ' + day,
+        xaxis = dict(
+            title = 'Time',
+            titlefont_size=16,
+            tickfont_size=14,
+        ),
+        yaxis=dict(
+            title = 'Wind speed unit',
+            titlefont_size=16,
+            tickfont_size=14,
+        )
+    )
     fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/daily/" + day + ".html")
-
+    
+    mean = float(sum(list(map(int, y))))/float(len(list(map(int, y))))
+    with open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/day", "w") as f:
+        f.write(str("%.2f" % mean))
 
 def generate_hourly_report(hour):
     mycursor.execute("SELECT * FROM wind_sensor_data WHERE capture_time LIKE '" + hour + "%';")
@@ -50,9 +66,25 @@ def generate_hourly_report(hour):
     x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
     y = data[:,1]
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=x,y=y))
+    fig.add_trace(go.Bar(x=x,y=y))
+    fig.update_layout(
+        title = 'Wind speed data for hour ' + hour,
+        xaxis = dict(
+            title = 'Time',
+            titlefont_size=16,
+            tickfont_size=14,
+        ),
+        yaxis=dict(
+            title = 'Wind speed unit',
+            titlefont_size=16,
+            tickfont_size=14,
+        )
+    )
     fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/hourly/" + hour + ".html")
 
+    mean = float(sum(list(map(int, y))))/float(len(list(map(int, y))))
+    with open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/hour", "w") as f:
+        f.write(str("%.2f" % mean))
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="Input date or hour to proceed with chart generation")

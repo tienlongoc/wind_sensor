@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import mysql.connector
 from datetime import datetime
+import os
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -22,7 +23,9 @@ def validate_date(date_text):
 
 @app.route("/", methods=['GET'])
 def home():
-    return "<h1>Oscar's wind sensor data</h1><p><a href='day'>Today's sensor data</a><p><a href='hour'>Last hour's sensor data</a>"
+    day = open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/day", "r").read()
+    hour = open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/hour", "r").read()
+    return "<h1>Oscar's wind sensor data</h1><p><h4>Today's average reading is " + day + " units.</h4><p><a href='day'>Today's sensor data</a><p><h4>Last hour's average reading is " + hour + " units.</h4><p><a href='hour'>Last hour's sensor data</a>"
 
 @app.route("/day", methods=['GET'])
 def day():
