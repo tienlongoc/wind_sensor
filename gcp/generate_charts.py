@@ -3,6 +3,7 @@ from datetime import datetime
 import mysql.connector
 import plotly.graph_objects as go
 import numpy as np
+import os
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -38,7 +39,7 @@ def generate_daily_report(day):
     y = data[:,1]
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x,y=y))
-    fig.write_html("./charts/daily/" + day + ".html")
+    fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/daily/" + day + ".html")
 
 
 def generate_hourly_report(hour):
@@ -50,7 +51,7 @@ def generate_hourly_report(hour):
     y = data[:,1]
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x,y=y))
-    fig.write_html("./charts/hourly/" + hour + ".html")
+    fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/hourly/" + hour + ".html")
 
 
 if __name__=="__main__":

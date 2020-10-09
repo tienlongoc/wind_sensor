@@ -6,16 +6,17 @@ source ~/ws/wind_sensor/gcp/wind_sensor/bin/activate
 day=$(date +"%Y%m%d")
 hour=$(date +"%Y%m%d-%H")
 
-python generate_charts.py --day="$day" >> log.txt 2>&1 
-python generate_charts.py --hour="$hour" >> log.txt 2>&1
 
-if [ -f ./charts/daily/$day.html ] ; then
-    cp ./charts/daily/$day.html ./templates/current_day.html
+python $HOME/ws/wind_sensor/gcp/generate_charts.py --day="$day" >> $HOME/ws/wind_sensor/gcp/log.txt
+python $HOME/ws/wind_sensor/gcp/generate_charts.py --hour="$hour" >> $HOME/ws/wind_sensor/gcp/log.txt
+
+if [ -f $HOME/ws/wind_sensor/gcp/charts/daily/$day.html ] ; then
+    cp $HOME/ws/wind_sensor/gcp/charts/daily/$day.html $HOME/ws/wind_sensor/gcp/templates/current_day.html
 else
-    cp ./charts/daily/default.html ./templates/current_day.html
+    cp $HOME/ws/wind_sensor/gcp/charts/daily/default.html $HOME/ws/wind_sensor/gcp/templates/current_day.html
 fi
-if [ -f ./charts/hourly/$hour.html ] ; then
-    cp ./charts/hourly/$hour.html ./templates/current_hour.html
+if [ -f $HOME/ws/wind_sensor/gcp/charts/hourly/$hour.html ] ; then
+    cp $HOME/ws/wind_sensor/gcp/charts/hourly/$hour.html $HOME/ws/wind_sensor/gcp/templates/current_hour.html
 else
-    cp ./charts/hourly/default.html ./templates/current_hour.html
+    cp $HOME/ws/wind_sensor/gcp/charts/hourly/default.html $HOME/ws/wind_sensor/gcp/templates/current_hour.html
 fi
