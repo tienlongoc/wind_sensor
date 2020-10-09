@@ -29,16 +29,29 @@ def validate_hour(hour_text):
     except ValueError:
         return False
 
+def mean(l):
+    return float(sum(list(map(int, l))))/float(len(list(map(int, l))))
 
 def generate_daily_report(day):
     mycursor.execute("SELECT * FROM wind_sensor_data WHERE capture_time LIKE '" + day + "%';")
     data = np.array(list(mycursor.fetchall()))
     if (len(data) == 0):
         return True
-    x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
+    x = data[:,0]
     y = data[:,1]
+    hourly_y = []
+    curr_hour_mark = x[0][:11]
+    hourly_x = [datetime.strptime(curr_hour_mark, "%Y%m%d-%H")]
+    curr_hour_values = []
+    for i in range(len(x)):
+        if x[i][:11] != curr_hour_mark:
+            curr_hour_mark = x[i][:11]
+            hourly_y.append(mean(curr_hour_values))
+            hourly_x.append(datetime.strptime(curr_hour_mark, "%Y%m%d-%H"))
+            curr_hour_values = []
+        curr_hour_values.append(y[i])
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=x,y=y))
+    fig.add_trace(go.Scatter(x=hourly_x,y=hourly_y,name="Normalised hourly values"))
     fig.update_layout(
         title = 'Wind speed data for date ' + day,
         xaxis = dict(
@@ -54,9 +67,8 @@ def generate_daily_report(day):
     )
     fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/daily/" + day + ".html")
     
-    mean = float(sum(list(map(int, y))))/float(len(list(map(int, y))))
     with open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/day", "w") as f:
-        f.write(str("%.2f" % mean))
+        f.write(str("%.2f" % mean(y)))
 
 def generate_hourly_report(hour):
     mycursor.execute("SELECT * FROM wind_sensor_data WHERE capture_time LIKE '" + hour + "%';")
@@ -66,7 +78,7 @@ def generate_hourly_report(hour):
     x = [datetime.strptime(t, '%Y%m%d-%H:%M') for t in data[:,0]]
     y = data[:,1]
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=x,y=y))
+    fig.add_trace(go.Bar(x=x,y=y,name="Minute values"))
     fig.update_layout(
         title = 'Wind speed data for hour ' + hour,
         xaxis = dict(
@@ -82,9 +94,8 @@ def generate_hourly_report(hour):
     )
     fig.write_html(os.getenv("HOME") + "/ws/wind_sensor/gcp/charts/hourly/" + hour + ".html")
 
-    mean = float(sum(list(map(int, y))))/float(len(list(map(int, y))))
     with open(os.getenv("HOME") + "/ws/wind_sensor/gcp/stats/hour", "w") as f:
-        f.write(str("%.2f" % mean))
+        f.write(str("%.2f" % mean(y)))
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description="Input date or hour to proceed with chart generation")
