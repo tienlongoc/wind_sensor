@@ -1,3 +1,3 @@
 0 * * * * /home/oscar_tienlong_chung_gmail_com/ws/wind_sensor/gcp/generate_charts.sh
 
-0 0 * * 0 /home/oscar_tienlong_chung_gmail_com/ws/wind_sensor/gcp/run_flask.sh
+30 * * * * /home/oscar_tienlong_chung_gmail_com/ws/wind_sensor/gcp/run_flask.sh
